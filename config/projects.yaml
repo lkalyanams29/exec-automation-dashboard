@@ -1,0 +1,21 @@
+projects:
+  - name: WebOps
+    projectId: "replace-with-katalon-project-id"
+  - name: Salesforce
+    projectId: "replace-with-katalon-project-id"
+  - name: BSP Services
+    projectId: "replace-with-katalon-project-id"
+  - name: MyKC
+    projectId: "replace-with-katalon-project-id"
+
+thresholds:
+  pass_rate: { green: 95, yellow: 90 }
+  flakiness: { green_max: 2, yellow_max: 5 }
+  weekly_growth_target: 3
+  flaky_min_executions: 5
+  flaky_history_window: 10
+
+sync:
+  lookback_days: 3
+  page_size: 100
+  max_retries: 5

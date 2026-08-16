@@ -1,0 +1,11 @@
+PRAGMA foreign_keys = ON;
+CREATE TABLE IF NOT EXISTS projects(project_id TEXT PRIMARY KEY, project_name TEXT NOT NULL, active INTEGER NOT NULL DEFAULT 1, synced_at TEXT);
+CREATE TABLE IF NOT EXISTS test_cases(test_case_id TEXT PRIMARY KEY, project_id TEXT NOT NULL REFERENCES projects(project_id), test_case_name TEXT NOT NULL, created_date TEXT, updated_date TEXT, raw_json TEXT);
+CREATE TABLE IF NOT EXISTS test_executions(execution_id TEXT PRIMARY KEY, project_id TEXT NOT NULL REFERENCES projects(project_id), execution_name TEXT, execution_date TEXT NOT NULL, environment TEXT, profile TEXT, suite_name TEXT, collection_name TEXT, browser TEXT, duration_seconds REAL, status TEXT, raw_json TEXT);
+CREATE TABLE IF NOT EXISTS test_results(execution_id TEXT NOT NULL REFERENCES test_executions(execution_id), test_case_id TEXT NOT NULL REFERENCES test_cases(test_case_id), status TEXT NOT NULL, duration_seconds REAL, failure_category TEXT DEFAULT 'Unknown', failure_message TEXT, raw_json TEXT, PRIMARY KEY(execution_id,test_case_id));
+CREATE TABLE IF NOT EXISTS daily_project_metrics(snapshot_date TEXT NOT NULL, project_id TEXT NOT NULL REFERENCES projects(project_id), total_automated_tests INTEGER NOT NULL, tests_added INTEGER NOT NULL DEFAULT 0, total_runs INTEGER NOT NULL DEFAULT 0, tests_executed INTEGER NOT NULL DEFAULT 0, passed INTEGER NOT NULL DEFAULT 0, failed INTEGER NOT NULL DEFAULT 0, skipped INTEGER NOT NULL DEFAULT 0, errors INTEGER NOT NULL DEFAULT 0, pass_rate REAL, average_duration_seconds REAL, PRIMARY KEY(snapshot_date,project_id));
+CREATE TABLE IF NOT EXISTS sync_runs(sync_id INTEGER PRIMARY KEY AUTOINCREMENT, started_at TEXT NOT NULL, completed_at TEXT, status TEXT NOT NULL, watermark TEXT, error TEXT);
+CREATE INDEX IF NOT EXISTS idx_test_cases_project_created ON test_cases(project_id,created_date);
+CREATE INDEX IF NOT EXISTS idx_executions_project_date ON test_executions(project_id,execution_date);
+CREATE INDEX IF NOT EXISTS idx_results_test_status ON test_results(test_case_id,status);
+CREATE INDEX IF NOT EXISTS idx_daily_date_project ON daily_project_metrics(snapshot_date,project_id);

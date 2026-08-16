@@ -1,0 +1,3 @@
+import assert from "node:assert/strict";import{readFile}from"node:fs/promises";import test from"node:test";
+test("executive surface",async()=>{const s=await readFile(new URL("../app/Dashboard.tsx",import.meta.url),"utf8");for(const x of ["Automation health","New tests added per week","Result distribution","PROJECT PERFORMANCE","WEEKLY MANAGEMENT SUMMARY"])assert.match(s,new RegExp(x));assert.doesNotMatch(s,/KATALON_API_KEY\s*=/)});
+test("environment credentials",async()=>{const s=await readFile(new URL("../backend/katalon/client.py",import.meta.url),"utf8");assert.match(s,/os\.getenv\("KATALON_API_KEY"\)/)});
