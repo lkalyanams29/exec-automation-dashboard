@@ -2,6 +2,8 @@
 
 An executive-first automation portfolio dashboard with a React/Vinext frontend and reusable Python ingestion and metrics layers. The UI uses representative data so it is immediately reviewable; connect credentials and validate TestOps response shapes before enabling live synchronization.
 
+The initial dashboard dataset is `sources/katalon_testops_sample_dataset.csv`. Its 2,063 rows are summarized in `app/sample-data.ts`, and the dashboard defaults to the latest 30-day execution window ending on the maximum date in that file.
+
 ## Included
 
 - Executive KPIs, period comparisons, automation growth, execution trends, result distribution, project performance, stability indicators and management summary
@@ -10,6 +12,7 @@ An executive-first automation portfolio dashboard with a React/Vinext frontend a
 - Defensive TestOps client with pagination, retry/backoff, rate-limit handling and response-shape discovery
 - Normalized SQLite schema with daily snapshots, duplicate-safe keys, failure categorization and a PostgreSQL-friendly repository boundary
 - Equivalent hosted D1 schema plus unit tests for core metric definitions
+- Monthly CSV import with required-column validation, automatic metric recalculation, durable import history and latest-import loading
 
 ## Setup
 
@@ -17,6 +20,12 @@ An executive-first automation portfolio dashboard with a React/Vinext frontend a
 2. Replace placeholder IDs in `config/projects.yaml`.
 3. Run `npm install`, then `npm run dev`.
 4. Create a Python environment, run `pip install -r requirements.txt`, then `pytest`.
+
+## Monthly CSV import
+
+Choose **Import CSV** in the dashboard and upload the next Katalon export. A file may contain only the new month or cumulative history, although cumulative history produces the most complete growth and comparison trends. Imports accept files up to 5 MB and require: `execution_id`, `run_id`, `project_name`, `test_case_id`, `test_case_created_at`, `execution_started_at`, `status`, and `duration_seconds`. Optional fields such as `is_flaky`, `repeat_failure_flag`, `failure_category`, `execution_week_start`, and `creation_week_start` enrich stability and failure reporting.
+
+Successful imports are stored in the `csv_imports` analytics table with the original CSV and calculated summary. The most recent import becomes the dashboard source on subsequent visits; invalid files do not replace the active dataset.
 
 ## Phase 1 — connectivity and field discovery
 
