@@ -1,4 +1,30 @@
-# Katalon TestOps Automation Management Dashboard
+# QEI Knowledge Intelligence
+
+An enterprise Quality Engineering knowledge-assistant POC that correlates authorized evidence from Jira, Confluence, SharePoint, Bitbucket, Slack, Katalon assets, and TestOps. The working surface demonstrates project-aware Ask QE and Mentor modes, evidence-level citations, authority and freshness signals, traceability, confidence, safe fallback, and a Week 2 evaluation suite.
+
+The included corpus is representative demo evidence. Production connectors, identity mapping, permission synchronization, embeddings/vector storage, and live LLM generation remain deployment integrations; the UI never presents the Week 2 quality targets as measured results.
+
+## Week 2 architecture
+
+1. Query intelligence identifies project, ticket, intent, and access scope.
+2. Hybrid retrieval combines semantic, keyword/BM25, exact identifier, and metadata filters.
+3. Graph lookup follows requirement → implementation → automation → execution.
+4. Reranking considers project fit, authority, freshness, and graph relationships.
+5. Evidence validation checks permissions, conflicts, missing sources, and stale context.
+6. Response generation returns a status, confidence, citations, and an explicit evidence boundary.
+
+## Evidence authority
+
+- Level 5: approved requirements, specifications, designs, and QE standards.
+- Level 4: current merged source, Katalon automation, and contracts.
+- Level 3: TestOps results, build execution, and review findings.
+- Level 2: comments, Slack discussions, and supporting project notes.
+- Level 1: old or superseded information.
+- Level 0: AI inference, which can explain evidence but never becomes evidence.
+
+## Previous dashboard foundation
+
+The repository also retains the Katalon TestOps automation-management data pipeline and CSV corpus assets developed in Week 1.
 
 An executive-first automation portfolio dashboard with a React/Vinext frontend and reusable Python ingestion and metrics layers. The UI uses representative data so it is immediately reviewable; connect credentials and validate TestOps response shapes before enabling live synchronization.
 
